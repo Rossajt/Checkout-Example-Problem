@@ -20,6 +20,7 @@ public class checkout{
 		String[] list = purchase.trim().split("\\s+");
 		scan.close();
 		return list;
+		
     }
     
 	/**
@@ -29,7 +30,9 @@ public class checkout{
 		String apple = "apple";
 		String orange = "orange";
 		int numberOfApples = 0;
+		int discountApples = 0;
 		int numberOfOranges = 0;
+		int discountOranges = 0;
 		int price = 0;
 		for(int i = 0; i < list.length; i++){
 			if(list[i].toLowerCase().equals(apple)){
@@ -39,7 +42,14 @@ public class checkout{
 				numberOfOranges++;
 			}
 		}
-		price = (numberOfApples * 60) + (numberOfOranges * 25);
+		// following lines will only trigger if customer is applicable for discount.
+		if(numberOfApples >= 2){
+		    discountApples = numberOfApples/2; 
+		}
+		if(numberOfOranges >= 3){
+		    discountOranges = numberOfOranges/3; 
+		}
+		price = ((numberOfApples * 60) - (discountApples * 60)) + ((numberOfOranges * 25) - (discountOranges *25));
 		return price;
     }
     
@@ -48,9 +58,10 @@ public class checkout{
      * @param price
      */
     private void printPrice(int price){
-    	int pricePounds = price / 100;
+		int pricePounds = price / 100;
 		int pricePence = price % 100;
 		System.out.println(String.format("Total Cost: £%d.%02d", pricePounds, pricePence));
+		
 	}
 	
 }
